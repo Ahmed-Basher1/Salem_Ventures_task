@@ -20,7 +20,7 @@ export class Task {
   @Prop({ enum: TaskStatus, default: TaskStatus.OPEN })
   status: TaskStatus;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;
 }
 

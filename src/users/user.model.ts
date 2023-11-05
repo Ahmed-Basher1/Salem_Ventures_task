@@ -17,10 +17,10 @@ export class User {
   password: string;
 
   // Call this method to hash the password before saving the user
-  async hashPassword(): Promise<void> {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
-  }
+  // hashPassword() {
+  //   const salt = bcrypt.genSaltSync(10);
+  //   this.password = bcrypt.hashSync(this.password, salt);
+  // }
 
   // Call this method to compare a password with the user's hashed password
   async comparePassword(candidatePassword: string): Promise<boolean> {
@@ -37,8 +37,9 @@ UserSchema.pre('save', async function (next) {
   // Only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next();
 
-  // Hash the password
-  await user.hashPassword();
+  const salt = bcrypt.genSaltSync(10);
+  this.password = bcrypt.hashSync(this.password, salt);
+
   next();
 });
 
